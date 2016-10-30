@@ -5,7 +5,7 @@ var gRoom = null;
 window.addEventListener('beforeunload', leaveRoomIfJoined);
 
 
-class NotSupported extends Component {
+class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {connectedToRoom: false, connState:'OFFLINE'};
@@ -104,7 +104,7 @@ class NotSupported extends Component {
         <div className="col-sm-12">
           {leaveRoomButton}{joinRoomButton}
         </div>
-        
+
       </div>
 
     );
@@ -116,4 +116,4 @@ function leaveRoomIfJoined() {
     gRoom.disconnect();
   }
 }
-export default NotSupported;
+export default Room;
