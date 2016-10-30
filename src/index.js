@@ -9,8 +9,8 @@ import Room from './components/Room.js';
 
 
 // *********************************************************** DRIVER
-var videoClient;
-
+var videoClient = null;
+var connectionData = {};
 showStandVyView();
 
 // Check for WebRTC
@@ -19,20 +19,26 @@ if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
 
 }else{
   $.getJSON('http://localhost:8000/token', function(data){
-
     console.log(data);
-      var identity = data.identity;
-      console.log(identity);
-      // Create a Video Client and connect to Twilio
-      videoClient = new Twilio.Video.Client(data.token);
-      showRoomView(videoClient, data.roomName);
+    connectionData = data;
   })
   .fail(function() {
     console.log( "error" );
   });
 }
 
+// *********************************************************** HANDLERS
+function handleStartSession(){
+  connectToCarrier();
+  if(videoClient){
+    showRoomView(videoClient, connectionData.roomName);
+  }
+}
+
 // *********************************************************** TWILIO
+function connectToCarrier(){
+  videoClient = new Twilio.Video.Client(connectionData.token);
+}
 
 // *********************************************************** REACT VIEWS
 function showRoomView(client, roomName){
@@ -42,7 +48,7 @@ function showRoomView(client, roomName){
 
 function showStandVyView(){
   ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-  ReactDOM.render(<StandBy />, document.getElementById('root'));
+  ReactDOM.render(<StandBy startHander= {handleStartSession} />, document.getElementById('root'));
 }
 
 function showNotSupportedView(){

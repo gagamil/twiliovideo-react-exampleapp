@@ -8,7 +8,7 @@ class StandBy extends Component {
         <div className="col-lg-12">
           <div className="panel panel-default">
             <div className="panel-body">
-              Stand By
+              <button onClick={this.props.startHander} className="btn btn-default">Connect</button>
             </div>
           </div>
         </div>
